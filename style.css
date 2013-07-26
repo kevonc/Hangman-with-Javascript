@@ -35,6 +35,10 @@ body {
   height: 70%;
 }
 
+#answerArea {
+  float: left;
+}
+
 #wordString {
   letter-spacing: 10px;
   font-size: 100px;
