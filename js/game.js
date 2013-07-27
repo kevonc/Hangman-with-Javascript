@@ -13,6 +13,7 @@ var word = {
 
   // Selects a random word from the word list sets the secret word
   setSecretWord: function(){
+    this.revealSecretWord = "";
     this.secretWord = _.shuffle(this.wordList)[0];
     for ( var i = 0; i < this.secretWord.length; i++ ) {
       this.revealSecretWord += ("_");
@@ -75,18 +76,16 @@ var player = {
   // Check if the player has won and end the game if so
   checkWin: function(){
     if (_.isEqual(word.secretWord, word.revealSecretWord)) {
-      messageBox.innerHTML = "You're a champion! A new game has started!"
-      game.resetGame();
+      messageBox.innerHTML = "You're a champion! A new game has started!";
+      game.giveUp();
     }
   },
 
   // Check if the player has lost and end the game if so --- lose if more than 8 wrongLetters;
   checkLose: function(){
     if (word.wrongLetters.length === this.maxGuesses) {
-      messageBox.innerHTML = "Game over. It's okay, try a new game!"
-      game.resetGame();
-      document.getElementById("guessField").style.display = 'none';
-      restartButton.style.display = 'block';
+      messageBox.innerHTML = "Game over. It's okay, try a new game!";
+      game.giveUp();
     }
   }
 };
@@ -123,26 +122,34 @@ var game = {
   },
 
   restartGame: function() {
-    this.resetGame();
     document.getElementById("guessField").style.display = 'block';
     restartButton.style.display = 'none';
     messageBox.innerHTML = "";
-  },
-  // Resets the game
-  resetGame: function(){
-    // word.secretWord = "";
     word.allLetters = [];
     word.correctLetters = [];
     word.wrongLetters = [];
-    word.revealSecretWord = "";
     word.hintLetter = "";
-    game.updateDisplay();
     word.setSecretWord();
+    game.updateDisplay();
+    canvas.remove();
+    document.getElementById("letterField").value = "";
   },
+  // Resets the game
+  // resetGame: function(){
+  //   word.allLetters = [];
+  //   word.correctLetters = [];
+  //   word.wrongLetters = [];
+  //   word.revealSecretWord = "";
+  //   word.hintLetter = "";
+  //   game.updateDisplay();
+  //   word.setSecretWord();
+  // },
 
   // Reveals the answer to the secret word and ends the game
   giveUp: function(){
     document.getElementById("revealAnswer").innerHTML = word.secretWord;
+    document.getElementById("guessField").style.display = 'none';
+    restartButton.style.display = 'block';
     // word.setSecretWord();  // how to have order of execution in js????????????????????????????????????
   },
 
@@ -232,7 +239,7 @@ window.onload = function(){
   word.setSecretWord();
   restartButton.style.display = 'none';
   // var canvas = new Raphael(document.getElementById('hangmanCanvas'), 350, 340);
-  // console.log(word.secretWord);
+  console.log(word.secretWord);
   // player.makeGuess("a");
   // player.makeGuess("e");
   // player.makeGuess("b");
@@ -263,7 +270,7 @@ window.onload = function(){
   // restartButton.addEventListener("click", function () { game.restartGame(); });
   restartButton.onclick = function () { game.restartGame(); };
   // Add event listener to the reset button to reset the game when clicked
-  resetButton.onclick = function () { game.resetGame(); };
+  resetButton.onclick = function () { game.restartGame(); };
   // Add event listener to the give up button to give up when clicked
   giveUpButton.onclick = function () { game.giveUp(); };
   // Hint button
