@@ -17,7 +17,7 @@ var word = {
     for ( var i = 0; i < this.secretWord.length; i++ ) {
       this.revealSecretWord += ("_");
     }
-    document.getElementById("revealAnswer").innerHTML = "Answer: " + word.revealSecretWord;
+    document.getElementById("revealAnswer").innerHTML = word.revealSecretWord;
   },
 
   // Takes an array of letters as input and returns an array of two items:
@@ -27,14 +27,19 @@ var word = {
   checkLetters: function(guessedLetter){
     var singleCharTest = /^[a-z]$/;
     if (guessedLetter.search(singleCharTest) == -1) {
-      alert("Please only enter one letter at a time.");
+      document.getElementById("messageBox").innerHTML = "Please enter a letter from A to Z.";
     } else {
-      if (_.contains(this.secretWord, guessedLetter)) {
-        this.correctLetters.push(guessedLetter);
+      if (_.contains(this.allLetters, guessedLetter)) {
+        document.getElementById("messageBox").innerHTML = "You've guessed this letter already.";
       } else {
-        this.wrongLetters.push(guessedLetter);
+        if (_.contains(this.secretWord, guessedLetter)) {
+          this.correctLetters.push(guessedLetter);
+        } else {
+          this.wrongLetters.push(guessedLetter);
+        }
+        this.allLetters.push(guessedLetter);
+        document.getElementById("messageBox").innerHTML = "";
       }
-      this.allLetters.push(guessedLetter);
     }
   },
 
@@ -108,8 +113,8 @@ var game = {
   // Update the display with the parts of the secret word guessed, the letters guessed, and the guesses remaining
   // secretWordWithBlanks, guessedLetters, guessesLeft
   updateDisplay: function(){
-    document.getElementById("revealAnswer").innerHTML = "Answer: " + word.revealSecretWord;
-    document.getElementById("guessedLetters").innerHTML = word.allLetters;
+    document.getElementById("revealAnswer").innerHTML = word.revealSecretWord;
+    document.getElementById("guessedLetters").innerHTML = word.allLetters.join(" ");
     document.getElementById("guessesLeft").innerHTML = player.maxGuesses - word.wrongLetters.length;
   },
 
@@ -167,7 +172,7 @@ hintButton = document.getElementById("hintButton");
   hintButton.addEventListener("click", function () {
     game.provideHint();
     hintButton.disabled = true;
-    hintButton.style.backgroundColor = "#000";
-    hintButton.style.color = "#4d4d4d";
+    hintButton.style.backgroundColor = "#9fcf88";
+    hintButton.style.color = "#fff";
   });
 };

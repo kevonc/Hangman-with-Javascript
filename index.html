@@ -3,35 +3,52 @@
 <head>
   <meta charset="utf-8">
   <title>Hangman</title>
-  <link rel="stylesheet" href="style.css">
+  <link href='http://fonts.googleapis.com/css?family=Graduate' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Londrina+Shadow' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/flat-ui.css">
+  <link rel="stylesheet" href="css/style.css">
   <script type='text/javascript' src='js/underscore.min.js'></script>
   <script type='text/javascript' src='js/game.js'></script>
 </head>
 <body>
-  <div id="gamePlayArea">
-    <div id="hangmanArea">
-      Guesses Left: <span id="guessesLeft">8</span>
-    </div>
-    <div id="letterArea">
-      <div id="lettersUsed">
-        Letters Guessed Already:
-        <div id="guessedLetters"></div>
-      </div>
+  <div class="row-fluid">
+    <div class="span8 offset2">
+      <h1>Hangman Challenge</h1>
       <div id="answerArea">
         <span id="revealAnswer"></span>
+      </div>
+      <div id="hangmanArea">
+        <div class="hangmanCanvas"></div>
+      </div>
+      <div id="letterArea">
+        <div class="row-fluid">
+          <div class="span7">
+            <div id="lettersUsed">
+              Letters Guessed Already:
+              <div id="guessedLetters"></div>
+            </div>
+          </div>
+          <div class="span5">
+            <div id="guessesLeftBox">
+              Guesses Left: <span id="guessesLeft">8</span>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="guessBox">
         Guess a Letter:
         <input id="letterField" type="text" autofocus />
       </div>
+      <div id="messageBox">
+      </div>
+      <div id="gameControlArea">
+        <!-- <input id="guessButton" class="button" type="submit" value="Guess"/> -->
+        <input id="hintButton" class="button" type="submit" value="Hint"/>
+        <input id="giveUpButton" class="button" type="submit" value="Give up"/>
+        <input id="resetButton" class="button" type="submit" value="Reset Game"/>
+      </div>
     </div>
-  </div>
-  <div id="wordString"></div>
-  <div id="gameControlArea">
-    <!-- <input id="guessButton" class="button" type="submit" value="Guess"/> -->
-    <input id="hintButton" class="button" type="submit" value="Hint"/>
-    <input id="giveUpButton" class="button" type="submit" value="Give up"/>
-    <input id="resetButton" class="button" type="submit" value="Reset Game"/>
   </div>
 </body>
 </html>

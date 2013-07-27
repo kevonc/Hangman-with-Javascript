@@ -23,6 +23,6 @@
 
 ###Bonus:
 * ==Validate the input so that only single letters are accepted as guesses (Hint: Look up regular expressions)
-* Change the input format so that there is no text field. You can get input by "listening" to the keyup event and figuring out which key was pressed.
+* ==Change the input format so that there is no text field. You can get input by "listening" to the keyup event and figuring out which key was pressed.
 * Draw the hangman guy using CSS
-* Implement a "hint" button that will reveal one of the letters in the word
+* ==Implement a "hint" button that will reveal one of the letters in the word

@@ -1,0 +1,92 @@
+/*
+#e6e6df, #e8d684, #ab8965, #545141, #4c8f4d, #9fcf88
+*/
+
+body {
+  background-color: #e6e6df;
+  font-size: 18px;
+  font-family: 'Graduate', cursive;
+  color: #545141;
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  color: #ab8965;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+#gamePlayArea {
+}
+
+#letterArea {
+
+}
+
+#lettersUsed {
+
+}
+
+#guessesLeftBox {
+
+}
+
+#hangmanArea {
+  margin: 20px auto;
+}
+
+.hangmanCanvas {
+  margin: 0 auto;
+  width: 80%;
+  height: 360px;
+  background: #e8d684;
+}
+
+#answerArea {
+  font-size: 24px;
+  letter-spacing: 10px;
+}
+
+#guessBox {
+  width: 100%;
+  text-align: center;
+}
+
+#messageBox {
+  font-size: 16px;
+  color: red;
+}
+
+input {
+  width: 160px;
+  border: 5px solid white;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  padding: 15px;
+  background: rgba(255,255,255,0.5);
+}
+
+#gameControlArea{
+
+}
+
+.button {
+  display: inline-block;
+  margin: 30px auto;
+  font-family: 'Londrina Shadow', cursive;
+  letter-spacing: 2px;
+  font-size: 20px;
+  color: white;
+  padding: 14px;
+  background-color: #4c8f4d;
+  border: 1px solid #367938;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+.button:hover {
+  background-color: #9fcf88;
+  border: 1px solid #367938;
+ }
