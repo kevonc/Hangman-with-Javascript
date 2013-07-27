@@ -13,8 +13,8 @@ body {
 h1 {
   text-align: center;
   color: #ab8965;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
 
 #gamePlayArea {
@@ -51,6 +51,7 @@ h1 {
 #guessBox {
   width: 100%;
   text-align: center;
+  margin-top: 30px;
 }
 
 #messageBox {
@@ -69,17 +70,20 @@ input {
 }
 
 #gameControlArea{
-
+  float: left;
+  width: 17%;
+  margin-top: 80px;
+  margin-left: 16px;
 }
 
 .button {
-  display: inline-block;
-  margin: 30px auto;
+  float: left;
+  margin: 10px auto;
   font-family: 'Londrina Shadow', cursive;
   letter-spacing: 2px;
-  font-size: 20px;
+  font-size: 16px;
   color: white;
-  padding: 14px;
+  padding: 10px;
   background-color: #4c8f4d;
   border: 1px solid #367938;
   -moz-border-radius: 10px;

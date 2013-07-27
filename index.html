@@ -19,7 +19,13 @@
         <span id="revealAnswer"></span>
       </div>
       <div id="hangmanArea">
-        <div class="hangmanCanvas"></div>
+        <div class="hangmanCanvas">
+          <div id="gameControlArea">
+            <input id="hintButton" class="button" type="submit" value="1 Hint"/>
+            <input id="giveUpButton" class="button" type="submit" value="Give up"/>
+            <input id="resetButton" class="button" type="submit" value="Reset Game"/>
+          </div>
+        </div>
       </div>
       <div id="letterArea">
         <div class="row-fluid">
@@ -41,12 +47,6 @@
         <input id="letterField" type="text" autofocus />
       </div>
       <div id="messageBox">
-      </div>
-      <div id="gameControlArea">
-        <!-- <input id="guessButton" class="button" type="submit" value="Guess"/> -->
-        <input id="hintButton" class="button" type="submit" value="Hint"/>
-        <input id="giveUpButton" class="button" type="submit" value="Give up"/>
-        <input id="resetButton" class="button" type="submit" value="Reset Game"/>
       </div>
     </div>
   </div>
