@@ -26,6 +26,11 @@ body {
 #lettersUsed {
   height: 50%;
 }
+
+#answerArea {
+  margin-bottom: 50px;
+}
+
 #guessBox {
   height: 50%;
 }
@@ -33,10 +38,6 @@ body {
 #guessedLetters {
   font-size: 20px;
   height: 70%;
-}
-
-#answerArea {
-  float: left;
 }
 
 #wordString {
@@ -54,8 +55,12 @@ input {
   background: rgba(255,255,255,0.5);
 }
 
+#gameControlArea{
+  text-align: center;
+}
+
 .button {
-  display: block;
+  display: inline-block;
   margin: 30px auto;
   font-family: Impact, Arial;
   letter-spacing: 2px;

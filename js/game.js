@@ -4,6 +4,7 @@ var word = {
   correctLetters: [],
   wrongLetters: [],
   revealSecretWord: "",
+  hintLetter: "",
   wordList: ['ruby', 'rails', 'javascript', 'array', 'hash', 'underscore', 'sinatra', 'model',
              'controller', 'view', 'devise', 'authentication', 'capybara', 'jasmine', 'cache',
              'sublime', 'terminal', 'system', 'twitter', 'facebook', 'function', 'google', 'amazon',
@@ -16,6 +17,7 @@ var word = {
     for ( var i = 0; i < this.secretWord.length; i++ ) {
       this.revealSecretWord += ("_");
     }
+    document.getElementById("revealAnswer").innerHTML = "Answer: " + word.revealSecretWord;
   },
 
   // Takes an array of letters as input and returns an array of two items:
@@ -23,12 +25,17 @@ var word = {
   // 2) An array of all the guessed letters that were not in the secret word
 
   checkLetters: function(guessedLetter){
-    if (_.contains(this.secretWord, guessedLetter)) {
-      this.correctLetters.push(guessedLetter);
+    var singleCharTest = /^[a-z]$/;
+    if (guessedLetter.search(singleCharTest) == -1) {
+      alert("Please only enter one letter at a time.");
     } else {
-      this.wrongLetters.push(guessedLetter);
+      if (_.contains(this.secretWord, guessedLetter)) {
+        this.correctLetters.push(guessedLetter);
+      } else {
+        this.wrongLetters.push(guessedLetter);
+      }
+      this.allLetters.push(guessedLetter);
     }
-    this.allLetters.push(guessedLetter);
   },
 
   findAnswer: function(guessedLetter) {
@@ -39,6 +46,11 @@ var word = {
         this.revealSecretWord = revealSecretWordArray.join("");
       }
     }
+  },
+
+  getHintLetter: function() {
+    var correctLettersLeft = _.shuffle(_.difference(this.secretWord, this.correctLetters));
+    this.hintLetter = _.first(correctLettersLeft);
   }
 };
 
@@ -49,17 +61,27 @@ var player = {
   makeGuess: function(guessedLetter){
     word.checkLetters(guessedLetter);
     word.findAnswer(guessedLetter);
-    game.updateDisplay(); // (?)
+    game.updateDisplay();
+    player.checkWin();
+    player.checkLose();
   },
 
   // Check if the player has won and end the game if so
-  checkWin: function(wordString){
-    return _.isEqual(secretWord, wordString);
+  checkWin: function(){
+    if (_.isEqual(word.secretWord, word.revealSecretWord)) {
+      confirm("YOU WIN!");
+      confirm("New Game!");
+      game.resetGame();
+    }
   },
 
   // Check if the player has lost and end the game if so --- lose if more than 8 wrongLetters;
-  checkLose: function(wrongLetters){
-    return wrongLetters.length > maxGuesses;
+  checkLose: function(){
+    if (word.wrongLetters.length >= this.maxGuesses) {
+      confirm("You Lose!");
+      confirm("New Game!");
+      game.resetGame();
+    }
   }
 };
 
@@ -71,6 +93,7 @@ var game = {
     word.correctLetters = [];
     word.wrongLetters = [];
     word.revealSecretWord = "";
+    word.hintLetter = "";
     game.updateDisplay();
     document.getElementById("revealAnswer").innerHTML = "";
     word.setSecretWord();
@@ -79,6 +102,7 @@ var game = {
   // Reveals the answer to the secret word and ends the game
   giveUp: function(){
     document.getElementById("revealAnswer").innerHTML = word.secretWord;
+    // word.setSecretWord();  // how to have order of execution in js????????????????????????????????????
   },
 
   // Update the display with the parts of the secret word guessed, the letters guessed, and the guesses remaining
@@ -87,33 +111,63 @@ var game = {
     document.getElementById("revealAnswer").innerHTML = "Answer: " + word.revealSecretWord;
     document.getElementById("guessedLetters").innerHTML = word.allLetters;
     document.getElementById("guessesLeft").innerHTML = player.maxGuesses - word.wrongLetters.length;
+  },
+
+  provideHint: function() {
+    word.getHintLetter();
+    word.findAnswer(word.hintLetter);
+    game.updateDisplay();
   }
 };
+
+function getChar(event) {
+  return String.fromCharCode(event.keyCode || event.charCode);
+}
 
 window.onload = function(){
 
 // Buttons
-var resetButton = document.getElementById("resetButton");
-var giveUpButton = document.getElementById("giveUpButton");
-var inputLetter = document.getElementById("letterField").value;
-var guessButton = document.getElementById("guessButton");
+var resetButton, giveUpButton, inputLetter, guessButton;
+resetButton = document.getElementById("resetButton");
+giveUpButton = document.getElementById("giveUpButton");
+// inputLetter = document.getElementById("letterField").value; // this is not working!!! i dont know why!!!
+guessButton = document.getElementById("guessButton");
+hintButton = document.getElementById("hintButton");
 
   // Start a new game
   word.setSecretWord();
   console.log(word.secretWord);
-  player.makeGuess("a");
-  player.makeGuess("e");
-  console.log(word.correctLetters);
-  console.log(word.wrongLetters);
-  console.log(word.revealSecretWord);
-  game.updateDisplay();
+  // player.makeGuess("a");
+  // player.makeGuess("e");
+  // player.makeGuess("b");
+
+  // console.log(word.correctLetters);
+  // console.log(word.wrongLetters);
+  // console.log(word.revealSecretWord);
+  // game.updateDisplay();
   // game.resetGame();
-  console.log(word.secretWord);
-  console.log(inputLetter);
+  // console.log(word.secretWord);
+  // console.log(inputLetter);
   // Add event listener to the letter input field to grab letters that are guessed
-  guessButton.addEventListener("click", function () { player.makeGuess(inputLetter); });
+    // guessButton.addEventListener("click", function () {
+    //   player.makeGuess(document.getElementById("letterField").value);
+    // });
+  // Keypress event
+  document.getElementById("letterField").onkeypress = function(event) {
+    var char = getChar(event || window.event);
+    this.value = char;
+    player.makeGuess(char);
+    return false;
+  }
   // Add event listener to the reset button to reset the game when clicked
   resetButton.addEventListener("click", function () { game.resetGame(); });
   // Add event listener to the give up button to give up when clicked
   giveUpButton.addEventListener("click", function () { game.giveUp(); });
+  // Hint button
+  hintButton.addEventListener("click", function () {
+    game.provideHint();
+    hintButton.disabled = true;
+    hintButton.style.backgroundColor = "#000";
+    hintButton.style.color = "#4d4d4d";
+  });
 };
