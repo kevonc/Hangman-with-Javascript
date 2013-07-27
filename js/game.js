@@ -27,18 +27,19 @@ var word = {
   checkLetters: function(guessedLetter){
     var singleCharTest = /^[a-z]$/;
     if (guessedLetter.search(singleCharTest) == -1) {
-      document.getElementById("messageBox").innerHTML = "Please enter a letter from A to Z.";
+      messageBox.innerHTML = "Please enter a letter from A to Z.";
     } else {
       if (_.contains(this.allLetters, guessedLetter)) {
-        document.getElementById("messageBox").innerHTML = "You've guessed this letter already.";
+        messageBox.innerHTML = "You've guessed this letter already.";
       } else {
         if (_.contains(this.secretWord, guessedLetter)) {
           this.correctLetters.push(guessedLetter);
         } else {
           this.wrongLetters.push(guessedLetter);
+          game.hangTheMan();
         }
         this.allLetters.push(guessedLetter);
-        document.getElementById("messageBox").innerHTML = "";
+        messageBox.innerHTML = "";
       }
     }
   },
@@ -74,23 +75,57 @@ var player = {
   // Check if the player has won and end the game if so
   checkWin: function(){
     if (_.isEqual(word.secretWord, word.revealSecretWord)) {
-      confirm("YOU WIN!");
-      confirm("New Game!");
+      messageBox.innerHTML = "You're a champion! A new game has started!"
       game.resetGame();
     }
   },
 
   // Check if the player has lost and end the game if so --- lose if more than 8 wrongLetters;
   checkLose: function(){
-    if (word.wrongLetters.length >= this.maxGuesses) {
-      confirm("You Lose!");
-      confirm("New Game!");
-      game.resetGame();
+    if (word.wrongLetters.length === this.maxGuesses) {
+      messageBox.innerHTML = "Game over. It's okay, try a new game!"
+      // game.resetGame();
+      // var restartButton = '<input id="resetButton" class="button" type="submit" value="Reset Game"/>';
+      document.getElementById("guessBox").innerHTML = '<input id="restartButton" class="button restart" type="submit" value="Restart Game"/>';
     }
   }
 };
 
 var game = {
+  hangTheMan: function() {
+    switch(word.wrongLetters.length)
+    {
+      case 1:
+      hangman.firstDeath();
+      break;
+      case 2:
+      hangman.secondDeath();
+      break;
+      case 3:
+      hangman.thirdDeath();
+      break;
+      case 4:
+      hangman.fourthDeath();
+      break;
+      case 5:
+      hangman.fifthDeath();
+      break;
+      case 6:
+      hangman.sixthDeath();
+      break;
+      case 7:
+      hangman.seventhDeath();
+      break;
+      case 8:
+      hangman.eighthDeath();
+      break;
+    }
+  },
+
+  restartGame: function() {
+    this.resetGame();
+    document.getElementById("guessBox").innerHTML = 'Guess a Letter: <input id="letterField" type="text" autofocus />';
+  },
   // Resets the game
   resetGame: function(){
     // word.secretWord = "";
@@ -100,7 +135,6 @@ var game = {
     word.revealSecretWord = "";
     word.hintLetter = "";
     game.updateDisplay();
-    document.getElementById("revealAnswer").innerHTML = "";
     word.setSecretWord();
   },
 
@@ -125,23 +159,77 @@ var game = {
   }
 };
 
+var canvas, line1, line2, line3, line4, line5, line6, line7a, line7b, line8a, line8b;
+var hangman = {
+  firstDeath: function() {
+    canvas = new Raphael(document.getElementById('hangmanCanvas'), 350, 340);
+    line1 = canvas.path("M 5 300 l 100 0 z" );
+    line1.attr({'stroke-linejoin': "round", 'stroke-width': 7, 'stroke': '#545141'});
+  },
+  secondDeath: function() {
+    line2 = canvas.path("M 55 50 l 0 250 z");
+    line2.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#545141'});
+  },
+  thirdDeath: function() {
+    line3 = canvas.path("M 55 50 l 180 0 z");
+    line3.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#545141'});
+  },
+  fourthDeath: function() {
+    line4 = canvas.path("M 235 50 l 0 30 z");
+    line4.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#545141'});
+  },
+  fifthDeath: function() {
+    line5 = canvas.circle(235, 105, 25);
+    line5.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#545141'});
+  },
+  sixthDeath: function() {
+    line6 = canvas.path("M 235 130 l 0 70 z");
+    line6.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#545141'});
+  },
+  seventhDeath: function() {
+    line7a = canvas.path("M235 150,80L190, 180");
+    line7b = canvas.path("M235 150,80L280, 180");
+    line7a.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#545141'});
+    line7b.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#545141'});
+  },
+  eighthDeath: function() {
+    line8a = canvas.path("M235 200,80L190, 270");
+    line8b = canvas.path("M235 200,80L280, 270");
+    line8a.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#FF0000'});
+    line8b.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#FF0000'});
+
+    // Signal game lost
+    line1.attr({stroke: '#FF0000'});
+    line2.attr({stroke: '#FF0000'});
+    line3.attr({stroke: '#FF0000'});
+    line4.attr({stroke: '#FF0000'});
+    line5.attr({stroke: '#FF0000'});
+    line6.attr({stroke: '#FF0000'});
+    line7a.attr({stroke: '#FF0000'});
+    line7b.attr({stroke: '#FF0000'});
+  }
+};
+
 function getChar(event) {
   return String.fromCharCode(event.keyCode || event.charCode);
 }
 
 window.onload = function(){
 
-// Buttons
-var resetButton, giveUpButton, inputLetter, guessButton;
-resetButton = document.getElementById("resetButton");
-giveUpButton = document.getElementById("giveUpButton");
-// inputLetter = document.getElementById("letterField").value; // this is not working!!! i dont know why!!!
-guessButton = document.getElementById("guessButton");
-hintButton = document.getElementById("hintButton");
+  // Buttons
+  var restartButton, resetButton, giveUpButton, inputLetter, guessButton, messageBox;
+  restartButton = document.getElementById("restartButton");
+  resetButton = document.getElementById("resetButton");
+  giveUpButton = document.getElementById("giveUpButton");
+  // inputLetter = document.getElementById("letterField").value; // this is not working!!! i dont know why!!!
+  guessButton = document.getElementById("guessButton");
+  hintButton = document.getElementById("hintButton");
+  messageBox = document.getElementById("messageBox");
 
   // Start a new game
   word.setSecretWord();
-  console.log(word.secretWord);
+  // var canvas = new Raphael(document.getElementById('hangmanCanvas'), 350, 340);
+  // console.log(word.secretWord);
   // player.makeGuess("a");
   // player.makeGuess("e");
   // player.makeGuess("b");
@@ -153,6 +241,9 @@ hintButton = document.getElementById("hintButton");
   // game.resetGame();
   // console.log(word.secretWord);
   // console.log(inputLetter);
+
+  // hangman.firstDeath();
+
   // Add event listener to the letter input field to grab letters that are guessed
     // guessButton.addEventListener("click", function () {
     //   player.makeGuess(document.getElementById("letterField").value);
@@ -164,6 +255,9 @@ hintButton = document.getElementById("hintButton");
     player.makeGuess(char);
     return false;
   }
+
+  // Restart Game
+  restartButton.addEventListener("click", function () { game.restartGame(); });
   // Add event listener to the reset button to reset the game when clicked
   resetButton.addEventListener("click", function () { game.resetGame(); });
   // Add event listener to the give up button to give up when clicked

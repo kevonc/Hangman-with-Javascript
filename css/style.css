@@ -36,7 +36,7 @@ h1 {
   margin: 20px auto;
 }
 
-.hangmanCanvas {
+#hangmanCanvas {
   margin: 0 auto;
   width: 80%;
   height: 360px;
@@ -60,7 +60,7 @@ h1 {
 }
 
 input {
-  width: 160px;
+  width: 80px;
   border: 5px solid white;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -93,4 +93,9 @@ input {
 .button:hover {
   background-color: #9fcf88;
   border: 1px solid #367938;
+ }
+
+ .restart {
+  float: none;
+  font-size: 1.2em;
  }
