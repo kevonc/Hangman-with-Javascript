@@ -84,9 +84,9 @@ var player = {
   checkLose: function(){
     if (word.wrongLetters.length === this.maxGuesses) {
       messageBox.innerHTML = "Game over. It's okay, try a new game!"
-      // game.resetGame();
-      // var restartButton = '<input id="resetButton" class="button" type="submit" value="Reset Game"/>';
-      document.getElementById("guessBox").innerHTML = '<input id="restartButton" class="button restart" type="submit" value="Restart Game"/>';
+      game.resetGame();
+      document.getElementById("guessField").style.display = 'none';
+      restartButton.style.display = 'block';
     }
   }
 };
@@ -124,7 +124,9 @@ var game = {
 
   restartGame: function() {
     this.resetGame();
-    document.getElementById("guessBox").innerHTML = 'Guess a Letter: <input id="letterField" type="text" autofocus />';
+    document.getElementById("guessField").style.display = 'block';
+    restartButton.style.display = 'none';
+    messageBox.innerHTML = "";
   },
   // Resets the game
   resetGame: function(){
@@ -214,10 +216,10 @@ function getChar(event) {
   return String.fromCharCode(event.keyCode || event.charCode);
 }
 
+var restartButton, resetButton, giveUpButton, guessButton, hintButton, messageBox;
 window.onload = function(){
 
   // Buttons
-  var restartButton, resetButton, giveUpButton, inputLetter, guessButton, messageBox;
   restartButton = document.getElementById("restartButton");
   resetButton = document.getElementById("resetButton");
   giveUpButton = document.getElementById("giveUpButton");
@@ -228,6 +230,7 @@ window.onload = function(){
 
   // Start a new game
   word.setSecretWord();
+  restartButton.style.display = 'none';
   // var canvas = new Raphael(document.getElementById('hangmanCanvas'), 350, 340);
   // console.log(word.secretWord);
   // player.makeGuess("a");
@@ -254,19 +257,20 @@ window.onload = function(){
     this.value = char;
     player.makeGuess(char);
     return false;
-  }
+  };
 
   // Restart Game
-  restartButton.addEventListener("click", function () { game.restartGame(); });
+  // restartButton.addEventListener("click", function () { game.restartGame(); });
+  restartButton.onclick = function () { game.restartGame(); };
   // Add event listener to the reset button to reset the game when clicked
-  resetButton.addEventListener("click", function () { game.resetGame(); });
+  resetButton.onclick = function () { game.resetGame(); };
   // Add event listener to the give up button to give up when clicked
-  giveUpButton.addEventListener("click", function () { game.giveUp(); });
+  giveUpButton.onclick = function () { game.giveUp(); };
   // Hint button
-  hintButton.addEventListener("click", function () {
+  hintButton.onclick = function () {
     game.provideHint();
     hintButton.disabled = true;
     hintButton.style.backgroundColor = "#9fcf88";
     hintButton.style.color = "#fff";
-  });
+  };
 };
