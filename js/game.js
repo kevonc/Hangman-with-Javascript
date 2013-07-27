@@ -66,7 +66,9 @@ var player = {
 
   // Takes a new letter as input and updates the game
   makeGuess: function(guessedLetter){
-    word.checkLetters(guessedLetter);
+    if (word.wrongLetters.length < this.maxGuesses) {
+      word.checkLetters(guessedLetter);
+    }
     word.findAnswer(guessedLetter);
     game.updateDisplay();
     player.checkWin();
@@ -134,16 +136,6 @@ var game = {
     canvas.remove();
     document.getElementById("letterField").value = "";
   },
-  // Resets the game
-  // resetGame: function(){
-  //   word.allLetters = [];
-  //   word.correctLetters = [];
-  //   word.wrongLetters = [];
-  //   word.revealSecretWord = "";
-  //   word.hintLetter = "";
-  //   game.updateDisplay();
-  //   word.setSecretWord();
-  // },
 
   // Reveals the answer to the secret word and ends the game
   giveUp: function(){
@@ -238,26 +230,7 @@ window.onload = function(){
   // Start a new game
   word.setSecretWord();
   restartButton.style.display = 'none';
-  // var canvas = new Raphael(document.getElementById('hangmanCanvas'), 350, 340);
-  console.log(word.secretWord);
-  // player.makeGuess("a");
-  // player.makeGuess("e");
-  // player.makeGuess("b");
 
-  // console.log(word.correctLetters);
-  // console.log(word.wrongLetters);
-  // console.log(word.revealSecretWord);
-  // game.updateDisplay();
-  // game.resetGame();
-  // console.log(word.secretWord);
-  // console.log(inputLetter);
-
-  // hangman.firstDeath();
-
-  // Add event listener to the letter input field to grab letters that are guessed
-    // guessButton.addEventListener("click", function () {
-    //   player.makeGuess(document.getElementById("letterField").value);
-    // });
   // Keypress event
   document.getElementById("letterField").onkeypress = function(event) {
     var char = getChar(event || window.event);
