@@ -196,18 +196,18 @@ var hangman = {
   eighthDeath: function() {
     line8a = canvas.path("M235 200,80L190, 270");
     line8b = canvas.path("M235 200,80L280, 270");
-    line8a.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#FF0000'});
-    line8b.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#FF0000'});
+    line8a.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#e83642'});
+    line8b.attr({'stroke-linejoin': "round", 'stroke-width': 7, stroke: '#e83642'});
 
     // Signal game lost
-    line1.attr({stroke: '#FF0000'});
-    line2.attr({stroke: '#FF0000'});
-    line3.attr({stroke: '#FF0000'});
-    line4.attr({stroke: '#FF0000'});
-    line5.attr({stroke: '#FF0000'});
-    line6.attr({stroke: '#FF0000'});
-    line7a.attr({stroke: '#FF0000'});
-    line7b.attr({stroke: '#FF0000'});
+    line1.attr({stroke: '#e83642'});
+    line2.attr({stroke: '#e83642'});
+    line3.attr({stroke: '#e83642'});
+    line4.attr({stroke: '#e83642'});
+    line5.attr({stroke: '#e83642'});
+    line6.attr({stroke: '#e83642'});
+    line7a.attr({stroke: '#e83642'});
+    line7b.attr({stroke: '#e83642'});
   }
 };
 
