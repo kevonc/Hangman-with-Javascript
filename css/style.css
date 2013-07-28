@@ -18,24 +18,9 @@ h1 {
 }
 
  .author {
-  font-size: 12px;
+  font-size: 10px;
   margin-bottom: 16px;
  }
-
-#gamePlayArea {
-}
-
-#letterArea {
-
-}
-
-#lettersUsed {
-
-}
-
-#guessesLeftBox {
-
-}
 
 #hangmanArea {
   margin: 20px auto;
@@ -62,6 +47,7 @@ h1 {
 #messageBox {
   font-size: 16px;
   color: #e83642;
+  margin-top: 20px;
 }
 
 input {

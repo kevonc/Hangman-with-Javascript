@@ -78,7 +78,7 @@ var player = {
   // Check if the player has won and end the game if so
   checkWin: function(){
     if (_.isEqual(word.secretWord, word.revealSecretWord)) {
-      messageBox.innerHTML = "You're a champion! A new game has started!";
+      messageBox.innerHTML = "You're a champion! Keep going!";
       game.giveUp();
     }
   },
