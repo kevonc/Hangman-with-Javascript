@@ -123,7 +123,7 @@ var game = {
     }
   },
 
-  restartGame: function() {
+  resetGame: function() {
     document.getElementById("guessField").style.display = 'block';
     restartButton.style.display = 'none';
     messageBox.innerHTML = "";
@@ -239,17 +239,29 @@ window.onload = function(){
     return false;
   };
 
+  var resetHintButton = function() {
+    hintButton.removeAttribute('disabled');
+    hintButton.style.backgroundColor = "#4c8f4d";
+    hintButton.style.color = "#fff";
+  };
+
   // Restart Game
   // restartButton.addEventListener("click", function () { game.restartGame(); });
-  restartButton.onclick = function () { game.restartGame(); };
+  restartButton.onclick = function () {
+    game.resetGame();
+    resetHintButton();
+   };
   // Add event listener to the reset button to reset the game when clicked
-  resetButton.onclick = function () { game.restartGame(); };
+  resetButton.onclick = function () {
+    game.resetGame();
+    resetHintButton();
+  };
   // Add event listener to the give up button to give up when clicked
   giveUpButton.onclick = function () { game.giveUp(); };
   // Hint button
   hintButton.onclick = function () {
     game.provideHint();
-    hintButton.disabled = true;
+    hintButton.setAttribute('disabled', 'disabled');
     hintButton.style.backgroundColor = "#9fcf88";
     hintButton.style.color = "#fff";
   };
